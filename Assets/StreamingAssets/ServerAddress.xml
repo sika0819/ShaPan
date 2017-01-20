@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Config>  
+	<IP>
+		<Id>1</Id>
+		<IPAddress>127.0.0.1</IPAddress>
+		<Port>9900</Port>
+	</IP>
+</Config>

@@ -8,17 +8,19 @@ public class Anim : MonoBehaviour {
     public string AnimName;
     public AnimType animType;
     public float duration=1;
+    public bool isRepeat = false;
     Image image;
     Vector3 originPos;
-    Color originColor;
+    public Color originColor;
     Color targetColor;
     [HideInInspector]
     public Vector3[] path;
     public string WayPointName;
-    Anim NextAnim;
+    public Anim NextAnim;
+    Tweener pathTween;
   //  private AnimType playAnimType = AnimType.Glow;//默认为发光动画
     // Use this for initialization
-    void Awake () {
+    void Start () {
         NextAnim = new Anim();
         AnimName = gameObject.name;
         image = GetComponent<Image>();
@@ -31,13 +33,13 @@ public class Anim : MonoBehaviour {
     }
     void Init(AnimType animType)
     {
-        Color none = new Color(0, 0, 0, 0);
+       // Color none = new Color(0, 0, 0, 0);
         switch (animType)
         {
             case AnimType.Glow:
                 if (image)
                 {
-                    image.color = none;
+                    image.color = originColor;
                 }
                 break;
             case AnimType.Translate:
@@ -62,8 +64,17 @@ public class Anim : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        if (animType == AnimType.Path)
+        {
+            if (pathTween != null)
+            {
+                if (pathTween.CompletedLoops() == 1)
+                {
+                    OnFinshed();
+                }
+            }
+        }
+    }
     public void Play(AnimType animType=AnimType.Glow,float duration=1)
     {//默认为发光动画1秒
         this.animType = animType;
@@ -88,16 +99,18 @@ public class Anim : MonoBehaviour {
     
         }
     }
-    public void Play(Color targetColor, float duration)
+    public void Play(Color target, float duration)
     {
         animType = AnimType.ChangeColor;
-        ChangeColor(targetColor, duration);
+        this.targetColor = target;
+        ChangeColor(target, duration);
     }
-    public void ChangeColor(Color targetColor,float duration)
+    public void ChangeColor(Color target,float duration)
     {
+       // Debug.Log(target);
         if (image)
         {
-            image.DOColor(targetColor, duration).OnComplete(OnFinshed);
+            image.DOColor(target, duration).OnComplete(OnFinshed);
         }
     }
     public void Play(Vector3 target, float duration = 1)
@@ -126,7 +139,8 @@ public class Anim : MonoBehaviour {
     public void DoPath(Vector3[] path,float duration)
     {
         this.path = path;
-        transform.DOLocalPath(path, duration, PathType.Linear).OnComplete(OnFinshed);
+        pathTween= transform.DOLocalPath(path, duration, PathType.Linear).OnComplete(OnFinshed).SetLoops(-1,LoopType.Yoyo);
+       
     }
     
     public void Fade(float duration) {
@@ -151,6 +165,7 @@ public class Anim : MonoBehaviour {
     public void AddNext(Anim anim)
     {
         NextAnim = anim;
+       // Debug.Log(NextAnim.AnimName);
     }
     public void AddNext(string Name, AnimType animType, float duration)
     {
@@ -158,12 +173,13 @@ public class Anim : MonoBehaviour {
         {
             if (item.Key == Name)
             {
+                //NextAnim = item.Value;
+              //  Debug.Log(Name);
+                item.Value.AnimName = Name;
+                item.Value.animType = animType;
+                item.Value.duration = duration;
                 NextAnim = item.Value;
-                NextAnim.name = Name;
-                NextAnim.animType = animType;
-                NextAnim.duration = duration;
-                AddNext(item.Value);
-            }
+             }
         }
     }
     public void AddNext(string Name,string wayPointName, float duration)
@@ -172,12 +188,14 @@ public class Anim : MonoBehaviour {
         {
             if (item.Key == Name)
             {
+                //NextAnim = new Anim();
+                // NextAnim = item.Value;
+                item.Value.AnimName = Name;
+                item.Value.animType = AnimType.Path;
+                item.Value.WayPointName = wayPointName;
+               // Debug.Log(item.Key + "" + wayPointName);
+                item.Value.duration = duration;
                 NextAnim = item.Value;
-                NextAnim.name = Name;
-                NextAnim.animType = AnimType.Path;
-                NextAnim.WayPointName = wayPointName;
-                NextAnim.duration = duration;
-                AddNext(item.Value);
             }
         }
     }
@@ -185,6 +203,7 @@ public class Anim : MonoBehaviour {
     {
         if (animType == AnimType.Path)
         {
+           // transform.localPosition = originPos;
             TrailRenderer trail = GetComponent<TrailRenderer>();
             trail.Clear();
             trail.enabled = true;
@@ -193,27 +212,30 @@ public class Anim : MonoBehaviour {
     }
     public void OnFinshed()
     {
-        Debug.Log("完成动画：" + AnimName + "的" + animType.ToString());
+       // Debug.Log("完成动画：" + AnimName + "的" + animType.ToString());
+       // Debug.Log("下一个" + NextAnim.AnimName);
         if (NextAnim != null) {
-             
-            if (NextAnim.animType == AnimType.Path)
+
+            if (NextAnim.animType==AnimType.Path)
             {
+             //   Debug.Log("下一个动画" + NextAnim.AnimName + "类型" + NextAnim.animType + "路径" + NextAnim.WayPointName);
                 StartCoroutine(ClearTrail());
-                Manager.Instance.ExcuteAnimation(AnimName, WayPointName);
+                Manager.Instance.ExcuteAnimation(NextAnim.AnimName, NextAnim.WayPointName, duration);
             }
             else
             {
                 Manager.Instance.ExcuteAnimation(NextAnim);
             }
         }
+      
     }
     IEnumerator ClearTrail()
     {
         TrailRenderer trail = GetComponent<TrailRenderer>();
         if (trail)
         {
-            yield return trail.time;
             trail.Clear();
+            yield return trail.time;
         }
         yield return null;
     }

@@ -37,7 +37,7 @@ public class ExportName: Editor  {
         WayPointDic = new Dictionary<string, WayPoint>();
         Anim[] allAnim = GameObject.FindObjectsOfType<Anim>();
         WayPoint[] allWay = GameObject.FindObjectsOfType<WayPoint>();
-
+        AnimArea[] allArea = GameObject.FindObjectsOfType<AnimArea>();
         for (int iLoop = 0; iLoop < allAnim.Length; iLoop++)
         {
             AnimationDic.Add(allAnim[iLoop].name, allAnim[iLoop]);
@@ -87,6 +87,21 @@ public class ExportName: Editor  {
         }
         //把这个类放在这个命名空间下  
         sampleNamespace.Types.Add(Customerclass2);
+        CodeTypeDeclaration Customerclass3 = new CodeTypeDeclaration("AreaName");
+        //指定这是一个Class  
+        Customerclass3.IsClass = true;
+        Customerclass3.TypeAttributes = TypeAttributes.Public;
+
+        
+        for (int iLoop = 0; iLoop < allArea.Length; iLoop++)
+        {
+            CodeMemberField field = new CodeMemberField(typeof(System.String),allArea[iLoop].AnimName);
+            field.InitExpression = new CodePrimitiveExpression(allArea[iLoop].AnimName);
+            field.Attributes = MemberAttributes.Public | MemberAttributes.Const;
+            Customerclass3.Members.Add(field);
+        }
+        //把这个类放在这个命名空间下  
+        sampleNamespace.Types.Add(Customerclass3);
         //把该命名空间加入到编译器单元的命名空间集合中  
         unit.Namespaces.Add(sampleNamespace);
         //添加方法（使用CodeMemberMethod)--此处略  
