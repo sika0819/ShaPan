@@ -8,9 +8,8 @@ public class TextGenerate : MonoBehaviour {
     Text Description;
     delegate void OnTextChanged(string Value);
     event OnTextChanged OnTextContentChanged;
-    [SerializeField]
     public TextAsset textAsset;
-    [SerializeField]
+ 
     public string TextContent {
         get {
             return _text;
@@ -34,7 +33,11 @@ public class TextGenerate : MonoBehaviour {
         string[] valueArray = Value.Split('\n');
         for (int iLoop = 0; iLoop < valueArray.Length; iLoop++)
         {
-            result += "\u3000" + valueArray[iLoop] + "\n";
+            if (iLoop < valueArray.Length - 1)
+                result += "\u3000" + valueArray[iLoop] + "\n";
+            else {
+                result += "\u3000" + valueArray[iLoop];
+            }
         }
         Description.text = result;
     }

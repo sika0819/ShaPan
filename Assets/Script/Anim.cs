@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using System;
+
 [ExecuteInEditMode]
 public class Anim : MonoBehaviour {
     public string AnimName;
@@ -229,6 +231,17 @@ public class Anim : MonoBehaviour {
         }
       
     }
+    public void Stop(AnimType animType)
+    {
+        if (animType == AnimType.Path)
+        {
+            
+            pathTween.SetLoops(0);
+            gameObject.GetComponent<RectTransform>().localPosition = originPos;
+            pathTween.Kill();
+            StartCoroutine(ClearTrail());
+        }
+    }
     IEnumerator ClearTrail()
     {
         TrailRenderer trail = GetComponent<TrailRenderer>();
@@ -239,4 +252,6 @@ public class Anim : MonoBehaviour {
         }
         yield return null;
     }
+
+    
 }

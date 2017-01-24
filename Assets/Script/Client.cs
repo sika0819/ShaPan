@@ -15,14 +15,14 @@ public class Client{
         this.tcpClient = tcpClient;
         this.clientIp = tcpClient.Client.RemoteEndPoint.ToString();
         data = new byte[this.tcpClient.ReceiveBufferSize];
-
         // 从服务端获取消息
-        tcpClient.GetStream().BeginRead(data, 0, System.Convert.ToInt32(this.tcpClient.ReceiveBufferSize), ReceiveMessage, null);
+        this.tcpClient.GetStream().BeginRead(data, 0, System.Convert.ToInt32(this.tcpClient.ReceiveBufferSize), ReceiveMessage, null);
 
     }
 
     public void ReceiveMessage(IAsyncResult ar)
     {
+
         int bytesRead;
         try
         {
@@ -30,19 +30,18 @@ public class Client{
             {
                 bytesRead = this.tcpClient.GetStream().EndRead(ar);
             }
-
             if (bytesRead < 1)
             {
-
+               
                 return;
             }
             else
             {
-                string messageReceived = System.Text.Encoding.ASCII.GetString(data, 0, bytesRead);
+                string messageReceived = System.Text.Encoding.ASCII.GetString(data, 0, bytesRead).Replace("\0", null);
                 msgEventArg msgArg = new msgEventArg(messageReceived);
-                OnReceiveEvent(this,msgArg);
+                OnReceiveEvent(this, msgArg);
+                Debug.Log(messageReceived);
             }
-
             lock (this.tcpClient.GetStream())
             {
                 this.tcpClient.GetStream().BeginRead(data, 0, System.Convert.ToInt32(this.tcpClient.ReceiveBufferSize), ReceiveMessage, null);
@@ -50,7 +49,11 @@ public class Client{
         }
         catch (Exception ex)
         {
-            Debug.Log("客户端异常：" + ex);
+            Debug.Log(ex);
         }
+    }
+    public void OnDisConnected() {
+        tcpClient.Close();
+        TCPServer.Instance.clientList.Remove(this);
     }
 }

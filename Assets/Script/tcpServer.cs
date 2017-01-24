@@ -40,12 +40,8 @@ public class TCPServer : MonoBehaviour {
     private Thread thStartServer;//定义启动socket的线程 
     XmlDocument xmlDoc;
     IPAddress ip;
-
-   
-
-    const int bufferSize = 8792;//缓存大小,8192字节  
-    List<Client> clientList;
-
+    public List<Client> clientList;
+    TcpListener tlistener;
     void Start()
     {
         xmlDoc = new XmlDocument();
@@ -53,43 +49,45 @@ public class TCPServer : MonoBehaviour {
         hostAddress= XmlTool.ReadSingleNode(xmlDoc,"IPAddress");
         port=int.Parse(XmlTool.ReadSingleNode(xmlDoc,"Port"));
         ip = IPAddress.Parse(hostAddress);
+        tlistener = new TcpListener(ip, port);
+        tlistener.Start();
         thStartServer = new Thread(StartServer);
         thStartServer.Start();//启动该线程  
         clientList = new List<Client>();
     }
     private void StartServer()
-    {
-        
-        TcpListener tlistener = new TcpListener(ip, port);
-        tlistener.Start();
+    { 
         Debug.Log("Socket服务器监听启动......");
         while (true)
         {
-            Client _client=new Client(tlistener.AcceptTcpClient());//接收已连接的客户端,阻塞方法  
-            clientList.Add(_client);
-            _client.OnReceiveEvent += OnReceiveMsg;
-            Debug.Log("客户端已连接！local:" + _client.tcpClient.Client.LocalEndPoint + "<---Client:" + _client.tcpClient.Client.RemoteEndPoint);
-            if (!_client.tcpClient.Connected)
-            {
-                clientList.Remove(_client);
-               
-            }
+            tlistener.BeginAcceptTcpClient(Accept, tlistener);//接收已连接的客户端,阻塞方法  
         }
     }
-
+    void Accept(IAsyncResult iar) {
+        TcpListener nowListener = (TcpListener)iar.AsyncState;
+        TcpClient client = nowListener.EndAcceptTcpClient(iar);
+        Client _client = new Client(client);
+        clientList.Add(_client);
+        Debug.Log("客户端已连接！local:" + _client.tcpClient.Client.LocalEndPoint + "<---Client:" + _client.tcpClient.Client.RemoteEndPoint);
+        _client.OnReceiveEvent += OnReceiveMsg;
+        
+    }
     public void OnReceiveMsg(object sender,msgEventArg msgArg)
     {
-        Debug.Log(sender+":"+msgArg.Message);
+     //   Debug.Log(sender+":"+msgArg.Message);
+     //   Debug.Log(msgArg.Message.Length);
         OnReceiveEvent(this, msgArg);
     }
     void OnApplicationQuit()
     {
+        tlistener.Stop();
         thStartServer.Abort();
         if (clientList.Count > 0) {
             for (int iLoop = 0; iLoop < clientList.Count; iLoop++)
             {
-                clientList[iLoop].tcpClient.Close();
+                clientList[iLoop].OnDisConnected();
             }
+            clientList.Clear();
         }
     }
 }

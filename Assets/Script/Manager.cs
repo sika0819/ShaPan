@@ -81,7 +81,12 @@ public class Manager : MonoBehaviour {
         foreach (KeyValuePair<string, Anim> item in AnimationDic)
         {
             ExcuteAnimation(item.Key,item.Value.originColor,duration);
+            foreach (KeyValuePair<string, WayPoint> wayItem in WayPointDic)
+            {
+                StopAnimation(item.Key, wayItem.Value.animName);
+            }
         }
+        
     }
     public void DisActiveAll(float duration)
     {
@@ -215,6 +220,18 @@ public class Manager : MonoBehaviour {
                 Debug.LogError("路径不存在");
             }
     
+    }
+    public void StopAnimation(string animName, string wayPointName)
+    {
+        if (WayPointDic.ContainsKey(wayPointName))
+        {
+            if(AnimationDic.ContainsKey(animName))
+                AnimationDic[animName].Stop(AnimType.Path);
+        }
+        else
+        {
+            Debug.LogError("路径不存在");
+        }
     }
     public void ExcuteAnimation(string name,AnimType animType=AnimType.Glow,float duration=1)
     {

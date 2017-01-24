@@ -11,31 +11,41 @@ public class Controller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+      
         if (isReceived)
         {
-            isReceived = false;
-            switch (message)
+            if (!string.IsNullOrEmpty(message))
             {
-                case AreaName.WaterInArea:
-                    Manager.Instance.WaterIn(10, 10);
-                    break;
-                case AreaName.ConsoleArea:
-                    Manager.Instance.ConsoleWater(10, 10);
-                    break;
-                case AreaName.CleanWaterOutArea:
-                    Manager.Instance.CleanWaterOut(10, 10);
-                    break;
-                case AreaName.DirtyArea:
-                    Manager.Instance.DirtyOut(10, 10);
-                    break;
-                case AreaName.All:
-                    Manager.Instance.ExcuteAll();
-                    break;
+                StartCoroutine(SelectAnim(message));
             }
+            isReceived = false;
         }
 	}
+    IEnumerator SelectAnim(string msg) {
+        Manager.Instance.RemainAll(1);
+        yield return new WaitForSeconds(1);
+        switch (msg)
+        {
+            case AreaName.WaterInArea:
+                Manager.Instance.WaterIn(10, 10);
+                break;
+            case AreaName.ConsoleArea:
+                Manager.Instance.ConsoleWater(10, 10);
+                break;
+            case AreaName.CleanWaterOutArea:
+                Manager.Instance.CleanWaterOut(10, 10);
+                break;
+            case AreaName.DirtyArea:
+                Manager.Instance.DirtyOut(10, 10);
+                break;
+            case AreaName.All:
+                Manager.Instance.ExcuteAll();
+                break;
+        }
+    }
     void OnReceiveMsg(object sender,msgEventArg msg)
     {
+       
         message = msg.Message;
         isReceived = true;
     }

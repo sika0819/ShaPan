@@ -96,7 +96,10 @@ public class ExportName: Editor  {
         for (int iLoop = 0; iLoop < allArea.Length; iLoop++)
         {
             CodeMemberField field = new CodeMemberField(typeof(System.String),allArea[iLoop].AnimName);
-            field.InitExpression = new CodePrimitiveExpression(allArea[iLoop].AnimName);
+            byte[] nameBytes = Encoding.ASCII.GetBytes(allArea[iLoop].AnimName);
+            string value = Encoding.ASCII.GetString(nameBytes);
+            field.InitExpression = new CodePrimitiveExpression(value);
+            
             field.Attributes = MemberAttributes.Public | MemberAttributes.Const;
             Customerclass3.Members.Add(field);
         }
