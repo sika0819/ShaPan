@@ -105,6 +105,7 @@
     <Compile Include="Assets\Script\AnimName.cs" />
     <Compile Include="Assets\Script\AnimType.cs" />
     <Compile Include="Assets\Script\Brush.cs" />
+    <Compile Include="Assets\Script\BuildYourSelf.cs" />
     <Compile Include="Assets\Script\CSequeue.cs" />
     <Compile Include="Assets\Script\Client.cs" />
     <Compile Include="Assets\Script\Controller.cs" />

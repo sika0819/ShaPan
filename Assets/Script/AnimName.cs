@@ -17,137 +17,141 @@ using System.Collections;
 public class AnimName
 {
     
-    public static string Trail11 = "Trail11";
+    public static string Brush = "Brush";
     
-    public static string ChenShanChi = "ChenShanChi";
-    
-    public static string Trail12 = "Trail12";
-    
-    public static string Trail15 = "Trail15";
-    
-    public static string Trail16 = "Trail16";
+    public static string FirstChenDian = "FirstChenDian";
     
     public static string YanYang = "YanYang";
     
-    public static string LiXinTuoShui = "LiXinTuoShui";
+    public static string Trail1 = "Trail1";
+    
+    public static string DuoJiXiaoHuaPool = "DuoJiXiaoHuaPool";
+    
+    public static string Trail7 = "Trail7";
+    
+    public static string GuFengJi = "GuFengJi";
+    
+    public static string XiGeShan2 = "XiGeShan2";
+    
+    public static string LuoYa = "LuoYa";
+    
+    public static string Trail2 = "Trail2";
+    
+    public static string SecondChenDian = "SecondChenDian";
+    
+    public static string Trail12 = "Trail12";
+    
+    public static string DirtyPool = "DirtyPool";
+    
+    public static string Trail6 = "Trail6";
+    
+    public static string Trail14 = "Trail14";
+    
+    public static string XiaoDuPool = "XiaoDuPool";
+    
+    public static string Trail11 = "Trail11";
+    
+    public static string Trail5 = "Trail5";
+    
+    public static string Trail4 = "Trail4";
+    
+    public static string Trail10 = "Trail10";
+    
+    public static string Trail3 = "Trail3";
+    
+    public static string Trail8 = "Trail8";
+    
+    public static string Trail16 = "Trail16";
+    
+    public static string TanPool = "TanPool";
+    
+    public static string XiGeShan1 = "XiGeShan1";
+    
+    public static string Trail19 = "Trail19";
+    
+    public static string CuGeShan1 = "CuGeShan1";
+    
+    public static string Trail15 = "Trail15";
+    
+    public static string Trail20 = "Trail20";
     
     public static string Trail13 = "Trail13";
     
-    public static string LuoYa = "LuoYa";
+    public static string Trail17 = "Trail17";
+    
+    public static string LiXinTuoShui = "LiXinTuoShui";
     
     public static string CuGeShan2 = "CuGeShan2";
     
     public static string Trail9 = "Trail9";
     
-    public static string DirtyPool = "DirtyPool";
-    
-    public static string Trail14 = "Trail14";
-    
-    public static string Trail6 = "Trail6";
-    
-    public static string Trail3 = "Trail3";
-    
-    public static string Trail7 = "Trail7";
-    
-    public static string FirstChenDian = "FirstChenDian";
+    public static string Trail21 = "Trail21";
     
     public static string Trail18 = "Trail18";
     
-    public static string Trail1 = "Trail1";
-    
-    public static string Trail20 = "Trail20";
-    
-    public static string Trail17 = "Trail17";
-    
     public static string HunNingPool = "HunNingPool";
     
-    public static string Trail21 = "Trail21";
-    
-    public static string DuoJiXiaoHuaPool = "DuoJiXiaoHuaPool";
-    
-    public static string SecondChenDian = "SecondChenDian";
-    
-    public static string TanPool = "TanPool";
-    
-    public static string CuGeShan1 = "CuGeShan1";
-    
-    public static string XiaoDuPool = "XiaoDuPool";
-    
-    public static string XiGeShan2 = "XiGeShan2";
-    
-    public static string GuFengJi = "GuFengJi";
-    
-    public static string Trail8 = "Trail8";
-    
-    public static string Trail19 = "Trail19";
-    
-    public static string Trail2 = "Trail2";
-    
-    public static string Trail4 = "Trail4";
-    
-    public static string Trail5 = "Trail5";
-    
-    public static string Trail10 = "Trail10";
-    
-    public static string XiGeShan1 = "XiGeShan1";
+    public static string ChenShanChi = "ChenShanChi";
 }
 
 public class WayPointName
 {
     
-    public static string WayPoint3 = "WayPoint3";
-    
-    public static string WayPoint6 = "WayPoint6";
-    
-    public static string WayPoint12 = "WayPoint12";
-    
-    public static string WayPoint15 = "WayPoint15";
-    
-    public static string WayPoint11 = "WayPoint11";
-    
-    public static string WayPoint16 = "WayPoint16";
-    
-    public static string WayPoint4 = "WayPoint4";
-    
-    public static string WayPoint8 = "WayPoint8";
-    
-    public static string WayPoint9 = "WayPoint9";
-    
-    public static string WayPoint20 = "WayPoint20";
-    
-    public static string WayPoint19 = "WayPoint19";
-    
-    public static string WayPoint14 = "WayPoint14";
-    
-    public static string WayPoint18 = "WayPoint18";
-    
     public static string WayPoint21 = "WayPoint21";
-    
-    public static string WayPoint5 = "WayPoint5";
-    
-    public static string WayPoint2 = "WayPoint2";
-    
-    public static string WayPoint7 = "WayPoint7";
     
     public static string WayPoint1 = "WayPoint1";
     
-    public static string WayPoint13 = "WayPoint13";
+    public static string WayPoint17 = "WayPoint17";
+    
+    public static string WayPoint8 = "WayPoint8";
     
     public static string WayPoint10 = "WayPoint10";
     
-    public static string WayPoint17 = "WayPoint17";
+    public static string WayPoint18 = "WayPoint18";
+    
+    public static string WayPoint7 = "WayPoint7";
+    
+    public static string WayPoint13 = "WayPoint13";
+    
+    public static string WayPoint9 = "WayPoint9";
+    
+    public static string WayPoint14 = "WayPoint14";
+    
+    public static string WayPoint4 = "WayPoint4";
+    
+    public static string WayPoint16 = "WayPoint16";
+    
+    public static string WayPoint6 = "WayPoint6";
+    
+    public static string WayPoint3 = "WayPoint3";
+    
+    public static string WayPoint19 = "WayPoint19";
+    
+    public static string WayPoint2 = "WayPoint2";
+    
+    public static string WayPoint11 = "WayPoint11";
+    
+    public static string WayPoint12 = "WayPoint12";
+    
+    public static string WayPoint20 = "WayPoint20";
+    
+    public static string WayPoint5 = "WayPoint5";
+    
+    public static string WayPoint15 = "WayPoint15";
 }
 
 public class AreaName
 {
     
-    public const string All = "All";
-    
-    public const string ConsoleArea = "ConsoleArea";
+    public const string CleanWaterOutArea = "CleanWaterOutArea";
     
     public const string WaterInArea = "WaterInArea";
     
     public const string DirtyArea = "DirtyArea";
     
-    public const string CleanWaterOutArea = "CleanWaterOutArea";
+    public const string ConsoleArea = "ConsoleArea";
+    
+    public const string All = "All";
+    
+    public const string BuildYourSelf = "BuildYourSelf";
 }

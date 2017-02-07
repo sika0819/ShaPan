@@ -41,6 +41,7 @@ public class UIController : MonoBehaviour {
     public GameObject BackBtn;
     public delegate void OnSlideUp();
     public event OnSlideUp OnSlidedUp;
+    public BuildYourSelf buildGame;
     public GameObject NowMenu {
         get {
             return _nowMenu;
@@ -208,6 +209,9 @@ public class UIController : MonoBehaviour {
                 NowMenu = MainMenu;
             }
         }
+        if (NowMenu == BuildYourselfMenu) {
+            buildGame.Clear();
+        }
     }
    
     void ShowLine() {
@@ -231,6 +235,7 @@ public class UIController : MonoBehaviour {
     void ShowBuildYouSelfFill()
     {
         BuildSelfFill.rectTransform.DOSizeDelta(new Vector2(120, 120), 1);
+        
     }
     void OnShowConsoleMethodBtn(GameObject go) {
         HideSecondBtn();
@@ -304,6 +309,8 @@ public class UIController : MonoBehaviour {
     {
         NowMenu = BuildYourselfMenu;
         MainMenu.transform.DOLocalMoveX(-Screen.width, 2);
+        buildGame.Clear();
+        MyClient.Instance.SendMessage(AreaName.BuildYourSelf);
     }
     void HideSecondBtn()
     {

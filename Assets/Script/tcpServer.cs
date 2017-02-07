@@ -34,7 +34,7 @@ public class TCPServer : MonoBehaviour {
     private static TCPServer _instance;
     public delegate void OnReceive(object sender,msgEventArg msg);
     public event OnReceive OnReceiveEvent;
-    public string hostAddress="127.0.0.1";
+   // public string hostAddress="127.0.0.1";
     public int port = 9900;
     // List<Socket> ClientList;
     private Thread thStartServer;//定义启动socket的线程 
@@ -46,10 +46,10 @@ public class TCPServer : MonoBehaviour {
     {
         xmlDoc = new XmlDocument();
         xmlDoc.Load(Application.streamingAssetsPath + "/ServerAddress.xml");
-        hostAddress= XmlTool.ReadSingleNode(xmlDoc,"IPAddress");
+       // hostAddress= XmlTool.ReadSingleNode(xmlDoc,"IPAddress");
         port=int.Parse(XmlTool.ReadSingleNode(xmlDoc,"Port"));
-        ip = IPAddress.Parse(hostAddress);
-        tlistener = new TcpListener(ip, port);
+        //ip = IPAddress.Parse(hostAddress);
+        tlistener = new TcpListener(port);
         tlistener.Start();
         thStartServer = new Thread(StartServer);
         thStartServer.Start();//启动该线程  
@@ -83,9 +83,9 @@ public class TCPServer : MonoBehaviour {
         tlistener.Stop();
         thStartServer.Abort();
         if (clientList.Count > 0) {
-            for (int iLoop = 0; iLoop < clientList.Count; iLoop++)
+            for (int iLoop = clientList.Count-1; iLoop >=0 ; iLoop--)
             {
-                clientList[iLoop].OnDisConnected();
+                clientList[iLoop].tcpClient.Close();
             }
             clientList.Clear();
         }

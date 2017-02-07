@@ -81,12 +81,21 @@ public class Manager : MonoBehaviour {
         foreach (KeyValuePair<string, Anim> item in AnimationDic)
         {
             ExcuteAnimation(item.Key,item.Value.originColor,duration);
-            foreach (KeyValuePair<string, WayPoint> wayItem in WayPointDic)
+        }
+      //  ClearAllWater();
+    }
+    public void ClearAllWater()
+    {
+        foreach (KeyValuePair<string, Anim> item in AnimationDic)
+        {
+            if (item.Key.Contains("Trail"))
             {
-                StopAnimation(item.Key, wayItem.Value.animName);
+                foreach (KeyValuePair<string, WayPoint> wayItem in WayPointDic)
+                {
+                    StopAnimation(item.Key, wayItem.Key);
+                }
             }
         }
-        
     }
     public void DisActiveAll(float duration)
     {
@@ -201,6 +210,7 @@ public class Manager : MonoBehaviour {
     {
         if (AnimationDic.ContainsKey(animName))
         {
+            AnimationDic[animName].gameObject.SetActive(true);
             AnimationDic[animName].Play(targetColor, duration);
         }
         else
@@ -210,23 +220,36 @@ public class Manager : MonoBehaviour {
     }
     public void ExcuteAnimation(string animName, string wayPointName, float duration = 1)
     {
-        
-            if (WayPointDic.ContainsKey(wayPointName))
-            {
-                AnimationDic[animName].Play(WayPointDic[wayPointName].targetPoint, duration);
-            }
-            else
-            {
-                Debug.LogError("路径不存在");
-            }
-    
+        if (WayPointDic.ContainsKey(wayPointName))
+        {
+            AnimationDic[animName].gameObject.SetActive(true);
+            AnimationDic[animName].Play(WayPointDic[wayPointName].targetPoint, duration);
+        }
+        else
+        {
+            Debug.LogError("路径不存在");
+        }
+    }
+    public void ExcuteAnimation(string animName, Vector3 target, float duration = 1)
+    {
+        if (AnimationDic.ContainsKey(animName))
+        {
+            AnimationDic[animName].gameObject.SetActive(true);
+            AnimationDic[animName].Play(target, duration);
+        }
+        else
+        {
+            Debug.LogError("动画不存在");
+        }
     }
     public void StopAnimation(string animName, string wayPointName)
     {
         if (WayPointDic.ContainsKey(wayPointName))
         {
-            if(AnimationDic.ContainsKey(animName))
+            if (AnimationDic.ContainsKey(animName))
+            {
                 AnimationDic[animName].Stop(AnimType.Path);
+            }
         }
         else
         {
@@ -241,7 +264,13 @@ public class Manager : MonoBehaviour {
             //Debug.Log("播放"+ name + "的" + animType.ToString());
         }
     }
-   
-   
-    
+    public void ExcutueBrush(string name)
+    {
+        Vector3 target=new Vector3();
+        if (AnimationDic.ContainsKey(name))
+        {
+            target= AnimationDic[name].gameObject.transform.localPosition;
+        }
+        ExcuteAnimation(AnimName.Brush, target);
+    }
 }

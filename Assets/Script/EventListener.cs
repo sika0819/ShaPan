@@ -8,6 +8,7 @@ public class EventListener :EventTrigger
     public delegate void VoidDelegate(GameObject go);
     public VoidDelegate OnClick;
     public VoidDelegate OnSlideUp;
+    public VoidDelegate OnDraging;
     static public EventListener GetListener(GameObject go) {
         EventListener listener= go.GetComponent<EventListener>();
         if (listener == null) listener = go.AddComponent<EventListener>();
@@ -24,5 +25,6 @@ public class EventListener :EventTrigger
         {
             if (OnSlideUp != null) OnSlideUp(gameObject);
         }
+        OnDraging(gameObject);
     }
 }

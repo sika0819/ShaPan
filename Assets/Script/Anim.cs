@@ -101,6 +101,7 @@ public class Anim : MonoBehaviour {
     
         }
     }
+  
     public void Play(Color target, float duration)
     {
         animType = AnimType.ChangeColor;
@@ -141,7 +142,7 @@ public class Anim : MonoBehaviour {
     public void DoPath(Vector3[] path,float duration)
     {
         this.path = path;
-        pathTween= transform.DOLocalPath(path, duration, PathType.Linear).OnComplete(OnFinshed).SetLoops(-1,LoopType.Yoyo);
+        pathTween= transform.DOLocalPath(path, duration, PathType.Linear).OnPlay(OnStarted).OnComplete(OnFinshed).SetLoops(-1,LoopType.Yoyo);
        
     }
     
@@ -198,6 +199,7 @@ public class Anim : MonoBehaviour {
                // Debug.Log(item.Key + "" + wayPointName);
                 item.Value.duration = duration;
                 NextAnim = item.Value;
+                item.Value.gameObject.SetActive(true);
             }
         }
     }
@@ -205,11 +207,13 @@ public class Anim : MonoBehaviour {
     {
         if (animType == AnimType.Path)
         {
-           // transform.localPosition = originPos;
+            // transform.localPosition = originPos;
+          //  gameObject.SetActive(true);
             TrailRenderer trail = GetComponent<TrailRenderer>();
             trail.Clear();
             trail.enabled = true;
-            
+            pathTween.Play();
+            pathTween.SetLoops(-1);
         }
     }
     public void OnFinshed()
@@ -249,6 +253,8 @@ public class Anim : MonoBehaviour {
         {
             trail.Clear();
             yield return trail.time;
+            //   gameObject.SetActive(false);
+            trail.enabled = false;
         }
         yield return null;
     }

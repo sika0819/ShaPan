@@ -41,6 +41,15 @@ public class Controller : MonoBehaviour {
             case AreaName.All:
                 Manager.Instance.ExcuteAll();
                 break;
+            case AreaName.BuildYourSelf:
+                Manager.Instance.RemainAll(1);
+                Manager.Instance.ClearAllWater();
+                break;
+            default:
+                Manager.Instance.RemainAll(1);
+                Manager.Instance.ExcutueBrush(msg);
+                Manager.Instance.ExcuteAnimation(msg);
+                break;
         }
     }
     void OnReceiveMsg(object sender,msgEventArg msg)
